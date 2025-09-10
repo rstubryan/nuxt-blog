@@ -36,3 +36,37 @@ export function useLoginMutation() {
 
   return { login };
 }
+
+export function useLogoutMutation() {
+  const { post } = useHttpRequest();
+
+  const logout = async () => {
+    try {
+      const result = await post<null>("/logout", {});
+
+      const response = typeof result === "function" ? await result() : result;
+
+      if (response?.status === "success") {
+        const userCookie = useCookie("user");
+        const accessTokenCookie = useCookie("access_token");
+        userCookie.value = null;
+        accessTokenCookie.value = null;
+
+        toast(response.message, {
+          description: "You have been logged out successfully.",
+        });
+
+        setTimeout(() => {
+          navigateTo("/login");
+        }, 2000);
+      }
+    } catch (err: any) {
+      toast(err?.response?.data?.message || "An unexpected error occurred.", {
+        description: "Please try again later.",
+      });
+      console.error(err);
+    }
+  };
+
+  return { logout };
+}
