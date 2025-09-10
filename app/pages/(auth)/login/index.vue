@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import LoginForm from "@/components/organisms/form/login-form.vue";
+import LoginForm from "@/components/organisms/form/login/login-form.vue";
 import { useHead } from "nuxt/app";
 
 useHead({
