@@ -12,13 +12,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { formSchema } from "./zod-login";
+import { useLoginMutation } from "@/composables/services/login/mutation";
+
+const { login } = useLoginMutation();
 
 const form = useForm({
   validationSchema: formSchema,
 });
 
-const onSubmit = form.handleSubmit((values) => {
-  console.log("Login successful!", values);
+const onSubmit = form.handleSubmit(async (values) => {
+  await login(values);
 });
 </script>
 
