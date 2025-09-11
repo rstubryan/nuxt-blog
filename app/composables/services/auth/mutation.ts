@@ -76,10 +76,9 @@ export function useVerifyTokenMutation() {
   const { post } = useHttpRequest();
   const authStore = useAuthStore();
 
-  const verifyToken = async () => {
+  const verifyToken = async (redirectOnFail = true) => {
     try {
       const result = await post<null>("/verify-token", {});
-
       const response = typeof result === "function" ? await result() : result;
 
       if (response?.status === "success") {
@@ -88,9 +87,11 @@ export function useVerifyTokenMutation() {
       }
     } catch (err: any) {
       authStore.clearAccessToken();
-      console.error("Token verification failed:", err);
+      console.error(err);
+      if (redirectOnFail) {
+        navigateTo("/login");
+      }
     }
-
     return false;
   };
 

@@ -5,12 +5,17 @@ export default defineNuxtRouteMiddleware(async (to) => {
   const authStore = useAuthStore();
   const { verifyToken } = useVerifyTokenMutation();
 
-  if (to.path === "/dashboard" && !authStore.accessToken) {
-    await verifyToken();
+  if (to.path === "/dashboard") {
+    if (!authStore.accessToken) {
+      const isVerified = await verifyToken(false);
+      if (!isVerified) {
+        return navigateTo("/login");
+      }
+    }
   }
 
   if (to.path === "/login") {
-    const isVerified = await verifyToken();
+    const isVerified = await verifyToken(false);
     if (isVerified) {
       return navigateTo("/dashboard");
     }

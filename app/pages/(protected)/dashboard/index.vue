@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useHead } from "nuxt/app";
-import { useAuthStore } from "@/composables/stores/auth";
 import { useLogoutMutation } from "@/composables/services/auth/mutation";
 import { ref, onMounted } from "vue";
 
@@ -9,18 +8,21 @@ useHead({
 });
 
 const { logout } = useLogoutMutation();
-const authStore = useAuthStore();
-const isLoading = ref(!authStore.accessToken);
+const isVerifying = ref(true);
 
 onMounted(() => {
-  isLoading.value = !authStore.accessToken;
+  setTimeout(() => {
+    isVerifying.value = false;
+  }, 500);
 });
 </script>
 
 <template>
   <NuxtLayout name="protected">
-    <template v-if="isLoading">
-      <p>Loading...</p>
+    <template v-if="isVerifying">
+      <div class="flex justify-center items-center h-full">
+        <p>Verifying authentication...</p>
+      </div>
     </template>
     <template v-else>
       Hello World
