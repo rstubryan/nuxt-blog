@@ -1,6 +1,7 @@
 import { useHttpRequest } from "@/composables/services/use-http-request";
 import { navigateTo, useCookie } from "nuxt/app";
 import { toast } from "vue-sonner";
+import { useAuthStore } from "@/composables/stores/auth";
 import type { UserProps } from "./type";
 
 export function useLoginMutation() {
@@ -69,4 +70,29 @@ export function useLogoutMutation() {
   };
 
   return { logout };
+}
+
+export function useVerifyTokenMutation() {
+  const { post } = useHttpRequest();
+  const authStore = useAuthStore();
+
+  const verifyToken = async () => {
+    try {
+      const result = await post<null>("/verify-token", {});
+
+      const response = typeof result === "function" ? await result() : result;
+
+      if (response?.status === "success") {
+        authStore.setAccessToken("verified");
+        return true;
+      }
+    } catch (err: any) {
+      authStore.clearAccessToken();
+      console.error("Token verification failed:", err);
+    }
+
+    return false;
+  };
+
+  return { verifyToken };
 }

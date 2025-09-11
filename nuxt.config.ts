@@ -35,7 +35,7 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ["shadcn-nuxt", "@nuxt/eslint"],
+  modules: ["shadcn-nuxt", "@nuxt/eslint", "@pinia/nuxt"],
   shadcn: {
     prefix: "",
     componentDir: "./app/components/ui",

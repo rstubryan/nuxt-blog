@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { formSchema } from "./zod-login";
-import { useLoginMutation } from "@/composables/services/login/mutation";
+import { useLoginMutation } from "@/composables/services/auth/mutation";
 
 const { login } = useLoginMutation();
 
