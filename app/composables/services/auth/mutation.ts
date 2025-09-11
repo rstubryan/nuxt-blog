@@ -1,4 +1,4 @@
-import { useHttpRequest } from "@/composables/services/use-http-request";
+import { useHttpRequest } from "../base/use-http-request";
 import { navigateTo, useCookie } from "nuxt/app";
 import { toast } from "vue-sonner";
 import { useAuthStore } from "@/composables/stores/auth";
