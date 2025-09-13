@@ -3,7 +3,7 @@ import { useHead } from "nuxt/app";
 import { ref, onMounted } from "vue";
 import { Loader2 } from "lucide-vue-next";
 
-import AppSidebar from "@/components/AppSidebar.vue";
+import AppSidebar from "@/components/organisms/sidebar/app-sidebar.vue";
 import {
   Breadcrumb,
   BreadcrumbItem,
