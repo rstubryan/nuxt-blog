@@ -14,7 +14,10 @@ onMounted(() => {
     <template v-if="isVerifying">
       <Loader2 class="animate-spin h-8 w-8 text-gray-500" />
     </template>
-    <template v-else>
+    <template
+      v-else
+      class="flex h-screen w-full items-center justify-center px-4"
+    >
       <slot />
     </template>
   </div>

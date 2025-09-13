@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import type { SidebarProps } from "@/components/ui/sidebar";
-
 import { Frame, PieChart } from "lucide-vue-next";
 import NavProjects from "@/components/organisms/sidebar/nav-menus.vue";
 import NavUser from "@/components/organisms/sidebar/nav-user.vue";
 import TeamSwitcher from "@/components/organisms/sidebar/team-switcher.vue";
+import { useCookie } from "nuxt/app";
+import type { UserProps } from "@/composables/services/auth/type";
 
 import {
   Sidebar,
@@ -18,12 +19,20 @@ const props = withDefaults(defineProps<SidebarProps>(), {
   collapsible: "icon",
 });
 
+const userCookie = useCookie<UserProps & { avatar?: string }>("user");
+
+let name = "User";
+let email = "user@example.com";
+let avatar = "https://github.com/shadcn.png";
+
+if (userCookie.value && typeof userCookie.value === "object") {
+  name = userCookie.value.name ?? name;
+  email = userCookie.value.email ?? email;
+  avatar = userCookie.value.avatar ?? avatar;
+}
+
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
+  user: { name, email, avatar },
   teams: [
     {
       name: "Acme Inc",

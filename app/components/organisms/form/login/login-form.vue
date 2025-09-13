@@ -26,7 +26,7 @@ const onSubmit = form.handleSubmit(async (values) => {
 </script>
 
 <template>
-  <Card class="max-w-md mx-auto">
+  <Card>
     <CardHeader>
       <CardTitle>Login</CardTitle>
     </CardHeader>
