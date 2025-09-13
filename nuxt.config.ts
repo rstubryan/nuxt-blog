@@ -29,7 +29,13 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ["shadcn-nuxt"],
+  runtimeConfig: {
+    public: {
+      baseApiUrl: process.env.NUXT_BASE_API_URL || "http://localhost:8000/api",
+    },
+  },
+
+  modules: ["shadcn-nuxt", "@nuxt/eslint", "@pinia/nuxt"],
   shadcn: {
     prefix: "",
     componentDir: "./app/components/ui",
