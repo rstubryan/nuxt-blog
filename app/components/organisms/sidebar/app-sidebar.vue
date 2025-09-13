@@ -31,7 +31,7 @@ const data = {
       plan: "Enterprise",
     },
   ],
-  projects: [
+  menus: [
     {
       name: "Blog",
       url: "/dashboard/blog",
@@ -52,7 +52,7 @@ const data = {
       <TeamSwitcher :teams="data.teams" />
     </SidebarHeader>
     <SidebarContent>
-      <NavProjects :projects="data.projects" />
+      <NavProjects :menus="data.menus" />
     </SidebarContent>
     <SidebarFooter>
       <NavUser :user="data.user" />

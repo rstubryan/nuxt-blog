@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/sidebar";
 
 defineProps<{
-  projects: {
+  menus: {
     name: string;
     url: string;
     icon: LucideIcon;
@@ -20,9 +20,9 @@ defineProps<{
 
 <template>
   <SidebarGroup class="group-data-[collapsible=icon]:hidden">
-    <SidebarGroupLabel>Menus</SidebarGroupLabel>
+    <SidebarGroupLabel>Menu</SidebarGroupLabel>
     <SidebarMenu>
-      <SidebarMenuItem v-for="item in projects" :key="item.name">
+      <SidebarMenuItem v-for="item in menus" :key="item.name">
         <SidebarMenuButton as-child>
           <NuxtLink :to="item.url" :aria-label="item.name">
             <component :is="item.icon" />
