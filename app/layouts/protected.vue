@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { Loader2 } from "lucide-vue-next";
 
 import AppSidebar from "@/components/organisms/sidebar/app-sidebar.vue";
@@ -23,6 +24,16 @@ const isVerifying = ref(true);
 onMounted(() => {
   isVerifying.value = false;
 });
+
+const route = useRoute();
+
+const breadcrumbSegments = computed(() => {
+  return route.path
+    .split("/")
+    .filter((seg) => seg && seg !== "dashboard" && seg !== "(protected)");
+});
+
+const dashboardBase = "/dashboard";
 </script>
 
 <template>
@@ -46,15 +57,24 @@ onMounted(() => {
             />
             <Breadcrumb>
               <BreadcrumbList>
-                <BreadcrumbItem class="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Building Your Application
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator class="hidden md:block" />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                  <NuxtLink :to="dashboardBase"> Dashboard </NuxtLink>
                 </BreadcrumbItem>
+                <template v-for="(seg, idx) in breadcrumbSegments" :key="seg">
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem v-if="idx < breadcrumbSegments.length - 1">
+                    <NuxtLink
+                      :to="`${dashboardBase}/${breadcrumbSegments.slice(0, idx + 1).join('/')}`"
+                    >
+                      {{ seg.charAt(0).toUpperCase() + seg.slice(1) }}
+                    </NuxtLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbItem v-else>
+                    <BreadcrumbPage>
+                      {{ seg.charAt(0).toUpperCase() + seg.slice(1) }}
+                    </BreadcrumbPage>
+                  </BreadcrumbItem>
+                </template>
               </BreadcrumbList>
             </Breadcrumb>
           </div>
