@@ -1,26 +1,28 @@
-import { useHttpRequest } from "../base/use-http-request";
-import { navigateTo, useCookie } from "nuxt/app";
+import { useCookie, navigateTo } from "nuxt/app";
 import { toast } from "vue-sonner";
 import { useAuthStore } from "@/composables/stores/auth";
 import type { UserProps } from "./type";
 
 export function useLoginMutation() {
-  const { post } = useHttpRequest();
+  const { $axios } = useNuxtApp();
+  const authStore = useAuthStore();
 
   const login = async (values: { email: string; password: string }) => {
     try {
-      const result = await post<{
-        user?: UserProps;
+      const response = await $axios.post<{
+        status: string;
+        message: string;
+        content: { user?: UserProps };
       }>("/login", values);
 
-      const response = typeof result === "function" ? await result() : result;
-
-      if (response?.status === "success" && response?.content?.user) {
+      if (response.data.status === "success" && response.data.content?.user) {
         const userCookie = useCookie("user");
-        userCookie.value = JSON.stringify(response.content.user);
+        userCookie.value = JSON.stringify(response.data.content.user);
 
-        toast(response.message, {
-          description: `Welcome, ${response.content.user.name}!`,
+        authStore.setUser(response.data.content.user);
+
+        toast(response.data.message, {
+          description: `Welcome, ${response.data.content.user.name}!`,
         });
 
         setTimeout(() => {
@@ -39,21 +41,23 @@ export function useLoginMutation() {
 }
 
 export function useLogoutMutation() {
-  const { post } = useHttpRequest();
+  const { $axios } = useNuxtApp();
+  const authStore = useAuthStore();
 
   const logout = async () => {
     try {
-      const result = await post<null>("/logout", {});
+      const response = await $axios.post<{
+        status: string;
+        message: string;
+      }>("/logout");
 
-      const response = typeof result === "function" ? await result() : result;
-
-      if (response?.status === "success") {
+      if (response.data.status === "success") {
         const userCookie = useCookie("user");
-        const accessTokenCookie = useCookie("access_token");
         userCookie.value = null;
-        accessTokenCookie.value = null;
 
-        toast(response.message, {
+        authStore.clearUser();
+
+        toast(response.data.message, {
           description: "You have been logged out successfully.",
         });
 
@@ -70,30 +74,4 @@ export function useLogoutMutation() {
   };
 
   return { logout };
-}
-
-export function useVerifyTokenMutation() {
-  const { post } = useHttpRequest();
-  const authStore = useAuthStore();
-
-  const verifyToken = async (redirectOnFail = true) => {
-    try {
-      const result = await post<null>("/verify-token", {});
-      const response = typeof result === "function" ? await result() : result;
-
-      if (response?.status === "success") {
-        authStore.setAccessToken("verified");
-        return true;
-      }
-    } catch (err: any) {
-      authStore.clearAccessToken();
-      console.error(err);
-      if (redirectOnFail) {
-        navigateTo("/login");
-      }
-    }
-    return false;
-  };
-
-  return { verifyToken };
 }
