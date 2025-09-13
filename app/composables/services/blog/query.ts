@@ -1,24 +1,29 @@
-import { useHttpRequest } from "../base/use-http-request";
 import type { BlogProps } from "./type";
 import type { PaginatedContent } from "../base/type";
 
 export function useBlogQuery() {
-  const { get } = useHttpRequest();
+  const { $axios } = useNuxtApp();
 
   const fetchPosts = async (params: Record<string, any> = {}) => {
-    return await get<PaginatedContent<BlogProps>>("/posts", params);
+    const response = await $axios.get<PaginatedContent<BlogProps>>("/posts", {
+      params,
+    });
+    return response.data;
   };
 
   const fetchPostById = async (postId: number) => {
-    return await get<BlogProps>(`/posts/${postId}`);
+    const response = await $axios.get<BlogProps>(`/posts/${postId}`);
+    return response.data;
   };
 
   const fetchCategories = async (params: Record<string, any> = {}) => {
-    return await get<any[]>("/categories", params);
+    const response = await $axios.get<any[]>("/categories", { params });
+    return response.data;
   };
 
   const fetchCategoryById = async (categoryId: number) => {
-    return await get<any>(`/categories/${categoryId}`);
+    const response = await $axios.get<any>(`/categories/${categoryId}`);
+    return response.data;
   };
 
   return {
