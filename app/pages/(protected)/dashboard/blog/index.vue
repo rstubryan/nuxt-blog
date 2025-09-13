@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import LoginForm from "@/components/organisms/form/login/login-form.vue";
 import { useHead } from "nuxt/app";
 
 useHead({
-  title: "Login",
+  title: "Blog CMS",
 });
 </script>
 
 <template>
-  <LoginForm />
+  <NuxtLayout name="protected"> <div class="">Hello World</div> </NuxtLayout>
 </template>
