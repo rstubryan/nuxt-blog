@@ -2,6 +2,7 @@
 import { useHead } from "nuxt/app";
 import { useLogoutMutation } from "@/composables/services/auth/mutation";
 import { ref, onMounted } from "vue";
+import { Loader2 } from "lucide-vue-next";
 
 useHead({
   title: "Dashboard",
@@ -21,7 +22,7 @@ onMounted(() => {
   <NuxtLayout name="protected">
     <template v-if="isVerifying">
       <div class="flex justify-center items-center h-full">
-        <p>Verifying authentication...</p>
+        <Loader2 class="animate-spin h-8 w-8 text-gray-500" />
       </div>
     </template>
     <template v-else>
