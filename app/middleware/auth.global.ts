@@ -8,10 +8,12 @@ export default defineNuxtRouteMiddleware(async (to) => {
 
   if (!authStore.isAuthenticated && userCookie.value) {
     try {
-      const user = userCookie.value as unknown as UserProps;
-      authStore.setUser(user);
+      const { $axios } = useNuxtApp();
+      const response = await $axios.get<{ user: UserProps }>("/user");
+      authStore.setUser(response.data.user);
     } catch (error) {
-      console.error("Error setting user from cookie:", error);
+      console.error("Failed to validate user:", error);
+      userCookie.value = null;
     }
   }
 
