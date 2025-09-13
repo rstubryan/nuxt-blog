@@ -2,7 +2,7 @@
 import type { SidebarProps } from "@/components/ui/sidebar";
 
 import { Frame, PieChart } from "lucide-vue-next";
-import NavProjects from "@/components/organisms/sidebar/nav-projects.vue";
+import NavProjects from "@/components/organisms/sidebar/nav-menus.vue";
 import NavUser from "@/components/organisms/sidebar/nav-user.vue";
 import TeamSwitcher from "@/components/organisms/sidebar/team-switcher.vue";
 
