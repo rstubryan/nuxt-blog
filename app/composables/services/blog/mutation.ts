@@ -35,5 +35,29 @@ export function useBlogMutation() {
     }
   };
 
-  return { createBlog };
+  const deleteBlog = async (id: number) => {
+    try {
+      const response = await $axios.delete<ApiResponseProps<BlogProps>>(
+        `/posts/${id}`,
+      );
+      if (response.data.status === "success") {
+        toast("Blog deleted successfully", {
+          description: response.data.message,
+        });
+        return { success: true, data: response.data };
+      } else {
+        toast(response.data.message || "Failed to delete blog.", {
+          description: "Please try again.",
+        });
+        return { success: false, error: response.data.message };
+      }
+    } catch (err: any) {
+      toast(err?.response?.data?.message || "Failed to delete blog.", {
+        description: "Please try again.",
+      });
+      return { success: false, error: err?.response?.data?.message };
+    }
+  };
+
+  return { createBlog, deleteBlog };
 }

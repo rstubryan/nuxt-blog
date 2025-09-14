@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { useHead } from "nuxt/app";
 import TableBlog from "@/components/organisms/table/table-blog.vue";
-import ModalBlog from "@/components/organisms/modal/modal-blog.vue";
+import ModalBlog from "@/components/organisms/modal/blog/modal-create-blog.vue";
 
 useHead({ title: "Blog CMS" });
 
