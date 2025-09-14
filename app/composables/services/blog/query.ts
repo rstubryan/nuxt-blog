@@ -1,11 +1,11 @@
 import type { BlogProps } from "./type";
-import type { PaginatedContent } from "../base/type";
+import type { ApiResponseProps } from "../base/type";
 
 export function useBlogQuery() {
   const { $axios } = useNuxtApp();
 
   const fetchPosts = async (params: Record<string, any> = {}) => {
-    const response = await $axios.get<PaginatedContent<BlogProps>>("/posts", {
+    const response = await $axios.get<ApiResponseProps<BlogProps>>("/posts", {
       params,
     });
     return response.data;
