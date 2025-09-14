@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useHead } from "nuxt/app";
-import TableBlog from "@/components/molecules/table/table-blog.vue";
-import ModalBlog from "@/components/molecules/modal/modal-blog.vue";
+import TableBlog from "@/components/organisms/table/table-blog.vue";
+import ModalBlog from "@/components/organisms/modal/modal-blog.vue";
 
 useHead({ title: "Blog CMS" });
 
